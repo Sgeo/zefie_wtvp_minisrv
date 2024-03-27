@@ -26,7 +26,9 @@
     "url": "https://github.com/zefie/zefie_wtvp_minisrv.git"
   },
   "dependencies": {
+    "@derhuerst/gemini": "^2.0.0",
     "@mafintosh/vm2": "^3.9.2",
+    "@twemoji/api": "^15.0.3",
     "adm-zip": "^0.5.10",
     "crypto-js": "^4.2.0",
     "easy-crc": "0.0.2",

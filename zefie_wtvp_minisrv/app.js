@@ -10,6 +10,7 @@ const tls = require('tls');
 const zlib = require('zlib');
 const http = require('follow-redirects').http
 const https = require('follow-redirects').https
+const geminiPromise = import('@derhuerst/gemini/client.js'); // ESM module requires import
 const httpx = require(classPath + "/HTTPX.js");
 const net = require('net');
 const crypto = require('crypto')
@@ -243,6 +244,7 @@ var runScriptInVM = function (script_data, user_contextObj = {}, privileged = fa
         "wtvmime": wtvmime,
         "http": http,
         "https": https,
+        "geminiPromise": geminiPromise,
         "wtvshared": wtvshared,
         "zlib": zlib,
         "clientShowAlert": clientShowAlert,
