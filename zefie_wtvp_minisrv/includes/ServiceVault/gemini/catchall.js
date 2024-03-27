@@ -20,15 +20,17 @@ geminiPromise.then((gemini) => {
                 if(10 <= res.statusCode && res.statusCode <= 19) {
                     let url = request_headers.request_url.replaceAll(/\?.*/g, "");
                     let query = res.meta.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
-                    let html = `<script>location.replace("${url}?"+prompt("${query}"));</script>`
+                    let html = `<script>var input = prompt("${query}"); if(input != null) { location.replace("${url}?"+input); } else { history.back(); }</script>`
                     sendToClient(socket, `200 OK\nContent-Type: text/html`, html);
                 }
-                if(res.meta.startsWith("text/gemini")) {
-                    text = gmi2webtv.gmi2webtv(text);
-                    sendToClient(socket, `200 OK\nContent-Type: text/html`, text);
-                } else {
-                    console.log(`None-text/gemini: ${res.meta}`);
-                    sendToClient(socket, `200 OK\nContent-Type: text/plain`, "text");
+                if(20 <= res.statusCode && res.statusCode <= 29) {
+                    if(res.meta.startsWith("text/gemini")) {
+                        text = gmi2webtv.gmi2webtv(text);
+                        sendToClient(socket, `200 OK\nContent-Type: text/html`, text);
+                    } else {
+                        console.log(`None-text/gemini: ${res.meta}`);
+                        sendToClient(socket, `200 OK\nContent-Type: text/plain`, "text");
+                    }
                 }
             });
         }
