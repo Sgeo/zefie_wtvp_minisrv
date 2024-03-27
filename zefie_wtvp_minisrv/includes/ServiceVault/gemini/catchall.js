@@ -19,7 +19,7 @@ geminiPromise.then((gemini) => {
             res.on("end", () => {
                 if(10 <= res.statusCode && res.statusCode <= 19) {
                     let url = request_headers.request_url.replaceAll(/\?.*/g, "");
-                    let query = res.meta.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+                    let query = res.meta.replaceAll('\\', '\\\\').replaceAll('"', '\\"');
                     let html = `<script>location.replace("${url}?"+prompt("${query}"));</script>`
                     sendToClient(socket, `200 OK\nContent-Type: text/html`, html);
                 }
