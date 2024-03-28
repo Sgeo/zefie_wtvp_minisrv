@@ -95,7 +95,7 @@ function gmi2webtv(gemtext) {
                 preformatted = false;
                 resultHtml += "</pre>\n";
             } else {
-                resultHtml += processText(line);
+                resultHtml += processText(line) + "\n";
             }
         } else if(line.startsWith("```")) {
             preformatted = true;
@@ -109,9 +109,9 @@ function gmi2webtv(gemtext) {
         } else if(line.startsWith("=>")) {
             let [full, url, desc] = LINK_REGEX.exec(line);
             if(desc) {
-                resultHtml += `<p><a href="${escapeHtml(url)}">${processText(desc)}</a></p>\n`;
+                resultHtml += `<p><a onmouseover="window.status=this.href" href="${escapeHtml(url)}">${processText(desc)}</a></p>\n`;
             } else {
-                resultHtml += `<p><a href="${escapeHtml(url)}">${processText(url)}</a></p>\n`;
+                resultHtml += `<p><a onmouseover="window.status=this.href" href="${escapeHtml(url)}">${processText(url)}</a></p>\n`;
             }
         } else {
             resultHtml += `<p>${processText(line)}<\p>\n`

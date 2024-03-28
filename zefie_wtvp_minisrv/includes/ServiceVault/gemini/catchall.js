@@ -23,14 +23,15 @@ geminiPromise.then((gemini) => {
                     let html = `<script>var input = prompt("${query}"); if(input != null) { location.replace("${url}?"+input); } else { history.back(); }</script>`
                     sendToClient(socket, `200 OK\nContent-Type: text/html`, html);
                 }
-                if(20 <= res.statusCode && res.statusCode <= 29) {
+                else if(20 <= res.statusCode && res.statusCode <= 29) {
                     if(res.meta.startsWith("text/gemini")) {
                         text = gmi2webtv.gmi2webtv(text);
                         sendToClient(socket, `200 OK\nContent-Type: text/html`, text);
                     } else {
-                        console.log(`None-text/gemini: ${res.meta}`);
-                        sendToClient(socket, `200 OK\nContent-Type: text/plain`, "text");
+                        sendToClient(socket, `200 OK\nContent-Type: ${res.meta}`, text);
                     }
+                } else if(30 <= res.statusCode && res.statusCode <= 39) {
+                    sendToClient(socket, `302 Redirect\nLocation: ${res.meta}`, "Redirecting...");
                 }
             });
         }
